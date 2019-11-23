@@ -345,7 +345,7 @@ nav .navbar-collapse .navbar-right > li > a {
 }
 .btn-secondary:hover {
     background-color: #fff;
-    color: #ff7b78;
+    color: #1ba7ff;
 }
 a.btn-secondary {
     border-radius: 50px;
@@ -813,7 +813,7 @@ a.btn-secondary {
     position: relative;
 }
 #email-subscribe {
-    background: #d36079 none repeat scroll 0 0;
+    background: #194561 none repeat scroll 0 0;
     border: 0 solid #a6a6a6;
     border-radius: 35px;
     color: #fff;
@@ -1156,7 +1156,7 @@ footer .social-icons .social-icon-box .footer-icon {
     text-transform: uppercase;
 }
 .service-icon i {
-    color: #ff7b78;
+    color: #1ba7ff;
     font-size: 50px;
     margin-right: 47px;
     margin-top: 9px;
@@ -1181,7 +1181,7 @@ footer .social-icons .social-icon-box .footer-icon {
 }
 .send-button > button {
     background: #ffffff none repeat scroll 0 0;
-    border: 1px solid #ff7b78;
+    border: 1px solid #1ba7ff;
     border-radius: 100px;
     color: #333;
     display: inline-block;
@@ -1195,8 +1195,8 @@ footer .social-icons .social-icon-box .footer-icon {
     text-align: right;
 }
 .send-button > button:hover {
-    background-color: #ff7b78;
-    border: 1px solid #ff7b78;
+    background-color: #1ba7ff;
+    border: 1px solid #1ba7ff;
     color: #ffffff;
     transition: all 200ms ease 0s;
 }

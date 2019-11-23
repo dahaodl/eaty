@@ -1,0 +1,176 @@
+/*
+Author: Dot Themes
+*/
+(function($) {
+    "use strict";
+
+	var $window = $(window),
+        $body = $('body'),
+        $winMenu = $('.winmenu');
+
+    const URL_SUBSCRIBE = "https://docs.google.com/forms/d/e/1FAIpQLSfrRWQRP-otFNqTvIWCUBXq829eNkQscpFr1Fme1jb52jpovg/formResponse";
+    const URL_CONTACT = "https://docs.google.com/forms/d/e/1FAIpQLSfSdhh5VDSEv7ovA_m13ocpicjJVqIl2M5njk2AcNAAJ-03EA/formResponse";
+
+    $(document).ready(function () {
+
+    /*----------------------------------------------------*/
+    /*  Menu Click Function js
+    /*----------------------------------------------------*/
+    $('#main_menu ul li a[href^="#"]:not([href="#"]').on('click', function(event) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($anchor.attr('href')).offset().top - 40
+        }, 500);
+        event.preventDefault();
+    });
+    /*----------------------------------------------------*/
+
+            //*START SCROLL SPY JS*/
+    $body.scrollspy({
+        target: '#main_menu'
+    });
+    /*END SCROLL SPY JS*/
+
+    new WOW().init();
+
+    /*START MENU JS*/
+    $('a.scroll-section').on('click', function (e) {
+        var anchor = $(this);
+        var ancAtt = $(anchor.attr('href'));
+        $('html, body').stop().animate({
+            scrollTop: ancAtt.offset().top
+        }, 1000);
+        e.preventDefault();
+    });
+
+    $window.scroll(function () {
+        var currentLink = $(this);
+        if ($(currentLink).scrollTop() > 0) {
+            $winMenu.addClass("sticky");
+        } else {
+            $winMenu.removeClass("sticky");
+        }
+    });
+    /*END MENU JS*/
+
+        });
+
+
+// SCREENSHOT MOBILE CAROUSEL
+    $(".screenshots-carousel").owlCarousel({
+        autoPlay: true, //Set AutoPlay to 3 seconds
+        items : 5,
+        itemsDesktop : [1199,3],
+        itemsDesktopSmall : [979,3],
+        itemsTablet : [768, 3],
+        itemsMobile : [479,1]
+    });
+
+    // TESTIMONIAL CAROUSEL
+    $(".testimonial-bottom").owlCarousel({
+        navigation : true, // Show next and prev buttons
+        slideSpeed : 300,
+        pagination: false,
+        paginationSpeed : 400,
+        singleItem:true,
+        autoPlay: true,
+        navigationText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"]
+    });
+
+
+    // Vimeo Video overlay
+        $(".btn-vimeo").simpleOverlay({
+        "insertBy": "embed",
+        "attribute": "data-vimeo"
+    });
+
+    // Scroll Top
+    $(window).on('scroll',function() {
+        if ($(this).scrollTop() > 100) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
+    });
+
+    $('.scrollup').on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop : 0}, 800);
+    });
+
+    $(document).on('submit', '#form-subscribe', function (event) {
+        event.preventDefault();
+        var em = $('#email-subscribe').val();
+        if (validateEmail(em)) {
+            //handle subscribes
+            $.post(URL_SUBSCRIBE, { emailAddress: em, pageHistory: 0 });
+            new PNotify({
+                title: 'Thành công',
+                text: 'Cảm ơn bạn đã đăng ký!',
+                type: 'success',
+                styling: 'brighttheme'
+            });
+            $('#email-subscribe').val('');
+        } else {
+            new PNotify({
+                title: 'Có lỗi',
+                text: 'Địa chỉ Email không đúng định dạng!',
+                type: 'error',
+                styling: 'brighttheme'
+            });
+        }
+    });
+
+    $(document).on('click', '#btn-contact', function () {
+        var fullName = $('input[name="name"]').val();
+        var email = $('input[name="email"]').val();
+        var message = $('textarea[name="message"]').val();
+        if(typeof(fullName) == 'undefined' || fullName == '' || fullName == null) {
+            new PNotify({
+                title: 'Có lỗi',
+                text: 'Mời nhập họ và tên!',
+                type: 'error',
+                styling: 'brighttheme'
+            });
+            return false;
+        }
+        if(typeof(email) == 'undefined' || email == '' || email == null) {
+            new PNotify({
+                title: 'Có lỗi',
+                text: 'Địa chỉ Email không đúng định dạng!',
+                type: 'error',
+                styling: 'brighttheme'
+            });
+            return false;
+        }
+        if(typeof(message) == 'undefined' || message == '' || message == null || message.length < 100) {
+            new PNotify({
+                title: 'Có lỗi',
+                text: 'Mời nhập nội dung. Nội dung phải trên 100 ký tự!',
+                type: 'error',
+                styling: 'brighttheme'
+            });
+            return false;
+        }
+        var data = {};
+        data['entry.1426123937'] = fullName;
+        data['entry.1889123753'] = email;
+        data['entry.143259884'] = message;
+        $.post(URL_CONTACT, data);
+        new PNotify({
+            title: 'Thành công',
+            text: 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ sớm phản hồi lại với bạn.',
+            type: 'success',
+            styling: 'brighttheme'
+        });
+        $('input[name="name"], input[name="email"], textarea[name="message"] ').val('');
+    });
+
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+     // document function end
+
+})(jQuery);
